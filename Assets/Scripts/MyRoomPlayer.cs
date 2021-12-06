@@ -9,9 +9,16 @@ public class MyRoomPlayer : NetworkRoomPlayer
     public int number = 100;
 
     void Update() {
+        if (!isLocalPlayer) return;
+
         if (Input.GetMouseButtonDown(0)) {
-            number += 1;
-            Debug.Log("clicked");
+            CmdTallyMe();
         }
+    }
+
+    [Command]
+    public void CmdTallyMe() {
+        number += 1;
+        Debug.Log("clicked");
     }
 }
