@@ -42,11 +42,11 @@ public class NetManager : NetworkRoomManager
     }
 
     public override void OnRoomClientEnter() {
-        GameObject.FindObjectOfType<TeamRoomManager>().GetComponent<TeamRoomManager>().OnTeamChange();
+        GameObject.FindObjectOfType<TeamRoomManager>()?.GetComponent<TeamRoomManager>()?.OnTeamChange();
     }
 
     public override void OnRoomClientExit() {
-        GameObject.FindObjectOfType<TeamRoomManager>().GetComponent<TeamRoomManager>().OnTeamChange();
+        GameObject.FindObjectOfType<TeamRoomManager>()?.GetComponent<TeamRoomManager>()?.OnTeamChange();
     }
 
     // SERVER ONLY

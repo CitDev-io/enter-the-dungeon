@@ -5,60 +5,38 @@ using Mirror;
 
 public class MyRoomPlayer : NetworkRoomPlayer
 {
-    [SerializeField]
-    List<GameObject> teamRoomOnlyGameObjects = new List<GameObject>();
-    [SerializeField]
-    List<GameObject> localOnlyGameObjects = new List<GameObject>();
-
-    [SyncVar]
-    public int number = 100;
-
-    void AdjustPositions() {
-        if (isLocalPlayer) return;
-
-        
-    }
-
-    void Update() {
-        if (!isLocalPlayer) return;
-
-        if (Input.GetMouseButtonDown(0)) {
-            CmdTallyMe();
-        }
-    }
-
-    [Command]
-    public void CmdTallyMe() {
-        number += 1;
-    }
+    public List<GameObject> localOnlyGameObjects = new List<GameObject>();
 
     public override void OnStartLocalPlayer()
     {
-        foreach(GameObject o in localOnlyGameObjects) {
-            o.SetActive(true);
+        showUI();
+    }
+
+    void showUI() {
+        if (isLocalPlayer) {
+            foreach(GameObject o in localOnlyGameObjects) {
+                o.SetActive(true);
+            }
         }
+    }
+
+    void hideUI() {
+            foreach(GameObject o in localOnlyGameObjects) {
+                o.SetActive(false);
+            }
     }
 
     public override void OnClientEnterRoom()
     {
-        /* this can't stay here */
-        foreach(GameObject o in teamRoomOnlyGameObjects) {
-            o.SetActive(true);
-        }
+       showUI();
     }
 
     public override void OnClientExitRoom()
     {
-        /* This can't stay here. */
-        foreach(GameObject o in teamRoomOnlyGameObjects) {
-            o.SetActive(false);
-        }
-        foreach(GameObject o in localOnlyGameObjects) {
-            o.SetActive(false);
-        }
+        hideUI();
     }
 
-    public void ReadyUp() {
-        CmdChangeReadyState(true);
+    public void ToggleReady() {
+        CmdChangeReadyState(!readyToBegin);
     }
 }
